@@ -10,6 +10,10 @@ type User struct {
 	Id   int    `json:"id"`
 	Name string `json:"name"`
 }
+type UserSignupRequest struct {
+	Name  string `json:"name,omitempty"`
+	Email string `json:"email"`
+}
 
 // Simple JSON Response: Create GET /user that returns a hardcoded user JSON: { "id":1, "name":"John" }.
 func main() {
@@ -38,5 +42,25 @@ func main() {
 		})
 	})
 
+	// 	Create an Echo API `POST /users` that:
+	// - Accepts JSON request body
+	// - Converts JSON → Go struct
+	// - Returns the same data as JSON response
+
+	e.POST("/users", func(c echo.Context) error {
+
+		var userReq UserSignupRequest
+
+		// JSON → Go struct
+		if err := c.Bind(&userReq); err != nil {
+			return c.JSON(http.StatusBadRequest, echo.Map{
+				"message": "invalid request payload",
+			})
+		}
+
+		// Go struct → JSON
+		return c.JSON(200, userReq)
+
+	})
 	e.Logger.Fatal(e.Start("127.0.0.1:3000"))
 }
