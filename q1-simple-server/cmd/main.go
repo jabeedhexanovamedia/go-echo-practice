@@ -11,5 +11,7 @@ func main() {
 
 		return c.String(200, "Hello world")
 	})
-	e.Logger.Fatal(e.Start(":8080"))
+	// e.Logger.Fatal(e.Start(":8080"))
+
+	e.Start(":0")
 }

@@ -44,7 +44,11 @@ func main() {
 ### Option 1: Custom Host Binding
 
 ```go
-e.Logger.Fatal(e.Start("127.0.0.1:9090")) // Bind only to localhost
+// Bind only to localhost
+e.Logger.Fatal(e.Start("127.0.0.1:9090"))
+
+// OS assigns a random free port.
+e.Start(":0")
 ```
 
 ### Option 2: HTTPS with StartTLS
