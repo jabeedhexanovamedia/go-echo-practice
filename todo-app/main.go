@@ -1,22 +1,26 @@
 package main
 
 import (
-	"net/http"
+	"fmt"
 
+	"github.com/jabeedhexanovamedia/todo-ap/config"
 	"github.com/labstack/echo/v5"
 
 	"github.com/labstack/echo/v5/middleware"
 )
 
 func main() {
+	cfg := config.LoadConfig()
+
 	e := echo.New()
 	e.Use(middleware.RequestLogger())
 
 	e.GET("/", func(c *echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
+		return c.String(200, "Todo API running in "+cfg.AppEnv+" mode")
 	})
 
-	if err := e.Start(":8080"); err != nil {
+	port := fmt.Sprintf(":%s", cfg.Port)
+	if err := e.Start(port); err != nil {
 		e.Logger.Error("failed to start server", "error", err)
 	}
 
